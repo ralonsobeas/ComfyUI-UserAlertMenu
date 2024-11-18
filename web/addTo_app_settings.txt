@@ -1,0 +1,25 @@
+        # New routes for saving and loading user
+        @routes.post("/save-user")
+        async def save_user(request):
+            data = await request.json()
+            user = data.get("user", "")
+            time = data.get("time", "")
+            # Print in console the data
+            print(data)
+            # Print in console the user and time
+            print(user, time)
+
+            with open("user.txt", "w") as f:
+                f.write(f"{user}\n{time}")
+            return web.Response(status=200)
+
+        @routes.get("/load-user")
+        async def load_user(request):
+            if os.path.exists("user.txt"):
+                with open("user.txt", "r") as f:
+                    lines = f.readlines()
+                    user = lines[0].strip() if len(lines) > 0 else ""
+                    time = lines[1].strip() if len(lines) > 1 else ""
+                return web.json_response({"user": user, "time": time})
+            else:
+                return web.json_response({"user": "", "time": ""})
