@@ -292,3 +292,62 @@ function updateTimeCounter() {
 
 // Agregar el contenedor al menú
 menu.append(container);
+
+// Intervalo en milisegundos (por ejemplo, 5000 ms = 5 segundos)
+const updateInterval = 5000;
+
+setInterval(async () => {
+    const response = await fetch('/load-users');
+    const data = await response.text();
+    const json = JSON.parse(data);
+    const newUsers = json.users;
+
+    // Actualizar la lista de usuarios si hay cambios
+    if (JSON.stringify(users) !== JSON.stringify(newUsers)) {
+        users = newUsers;
+        userList.innerHTML = ''; // Limpiar la lista actual
+
+        for (let user of users) {
+            const listItem = document.createElement('li');
+            listItem.textContent = user;
+            listItem.id = `user-${user}`;
+            listItem.style.display = "flex"; // Usar flexbox
+            listItem.style.justifyContent = "space-between"; // Espacio entre el nombre y el botón
+            listItem.style.alignItems = "center"; 
+            userList.appendChild(listItem);
+
+            // Crear botón de logout para cada usuario
+            const logoutButton = document.createElement('button');
+            logoutButton.textContent = "X"; // Texto del botón
+            logoutButton.style.marginLeft = "10px";
+            logoutButton.style.backgroundColor = "#f44336"; // Red background
+            logoutButton.style.color = "white"; // White text
+            logoutButton.style.border = "none"; // No border
+            logoutButton.style.padding = "5px 10px"; // Padding
+            logoutButton.style.textAlign = "center"; // Centered text
+            logoutButton.style.textDecoration = "none"; // No underline
+            logoutButton.style.display = "inline-block"; // Inline-block display
+            logoutButton.style.fontSize = "12px"; // Font size
+            logoutButton.style.cursor = "pointer"; // Pointer cursor on hover
+            logoutButton.style.borderRadius = "4px"; // Rounded corners
+
+            logoutButton.onclick = async () => {
+                // Eliminar usuario de la lista
+                users = users.filter(u => u !== user);
+                userList.removeChild(listItem);
+
+                // Guardar la lista de usuarios actualizada en el servidor
+                await fetch('/remove-user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ user })
+                });
+            };
+
+            listItem.appendChild(logoutButton);
+            userList.appendChild(listItem);
+        }
+    }
+}, updateInterval);
