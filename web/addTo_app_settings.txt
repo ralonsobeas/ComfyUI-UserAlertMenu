@@ -1,3 +1,4 @@
+        """
         # New routes for saving and loading user
         @routes.post("/save-user")
         async def save_user(request):
@@ -23,3 +24,40 @@
                 return web.json_response({"user": user, "time": time})
             else:
                 return web.json_response({"user": "", "time": ""})
+        """
+
+        # New routes for saving and loading user
+        @routes.post("/save-user")
+        async def save_user(request):
+            data = await request.json()
+            users = data.get("users", [])
+
+
+            with open("user.txt", "w") as f:
+                f.write(json.dumps(users))
+            return web.Response(status=200)
+
+        @routes.post("/remove-user")
+        async def remove_user(request):
+            print("Removing user")
+            data = await request.json()
+            users = data.get("users", [])
+
+
+            with open("user.txt", "w") as f:
+                f.write(json.dumps(users))
+            return web.Response(status=200)
+
+        @routes.get("/load-users")
+        async def load_users(request):
+            if os.path.exists("user.txt"):
+                users = []
+                with open("user.txt", "r") as f:
+                    if os.path.getsize("user.txt") == 0:
+                        return web.json_response({"users": users})
+                    users = json.loads(f.read())
+                print("Users loaded:", users)
+                return web.json_response({"users": users})
+
+            else:
+                return web.json_response({"users": []})
