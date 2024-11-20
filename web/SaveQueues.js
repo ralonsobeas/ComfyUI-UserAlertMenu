@@ -77,23 +77,34 @@ userListHeader.textContent = "Usuarios activos";
 const userList = document.createElement('ul');
 userList.id = "userList";
 
-// Create Teams link button
+// Crear el botón de Teams
 const teamsLinkButton = document.createElement('button');
-teamsLinkButton.textContent = "Open ElRanchito Teams Channel";
-// Apply ComfyUI styles
+teamsLinkButton.style.display = "flex";
+teamsLinkButton.style.alignItems = "center";
 teamsLinkButton.style.backgroundColor = "#007BFF"; // Blue background
 teamsLinkButton.style.color = "white"; // White text
 teamsLinkButton.style.border = "none"; // No border
 teamsLinkButton.style.padding = "10px 20px"; // Smaller padding
 teamsLinkButton.style.textAlign = "center"; // Centered text
 teamsLinkButton.style.textDecoration = "none"; // No underline
-teamsLinkButton.style.display = "inline-block"; // Inline-block display
 teamsLinkButton.style.fontSize = "14px"; // Smaller font size
 teamsLinkButton.style.margin = "2px 1px"; // Smaller margin
 teamsLinkButton.style.cursor = "pointer"; // Pointer cursor on hover
 teamsLinkButton.style.borderRadius = "8px"; // Rounded corners
 
-// Add hover effect
+// Crear el icono de Teams
+const teamsIcon = document.createElement('img');
+teamsIcon.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Microsoft_Office_Teams_%282018%E2%80%93present%29.svg/2203px-Microsoft_Office_Teams_%282018%E2%80%93present%29.svg.png'; // Reemplaza con la URL de la imagen del icono de Teams
+teamsIcon.alt = 'Teams Icon';
+teamsIcon.style.width = '20px'; // Ajusta el tamaño del icono según sea necesario
+teamsIcon.style.height = '20px'; // Ajusta el tamaño del icono según sea necesario
+teamsIcon.style.marginRight = '8px'; // Espacio entre el icono y el texto
+
+// Añadir el icono y el texto al botón
+teamsLinkButton.appendChild(teamsIcon);
+teamsLinkButton.appendChild(document.createTextNode('Open ElRanchito Teams Channel'));
+
+// Añadir efecto hover
 teamsLinkButton.onmouseover = () => {
     teamsLinkButton.style.backgroundColor = "#0056b3"; // Darker blue on hover
 };
@@ -104,6 +115,9 @@ teamsLinkButton.onmouseout = () => {
 teamsLinkButton.onclick = () => {
     window.open('https://teams.microsoft.com/l/channel/19%3AlsfdwSK5auuJU9QOYGAzJebppgcyRGauJOhB-G4Dur81%40thread.tacv2/Stable%20Diffusion%20ELR?groupId=9f39b94f-74c0-4e00-94cb-231e35eaee66&ngc=true&allowXTenantAccess=true', '_blank');
 };
+
+// Añadir el botón al contenedor
+container.append(teamsLinkButton);
 
 // Append elements to the container
 container.append(saveInput);
