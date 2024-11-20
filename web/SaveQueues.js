@@ -162,7 +162,7 @@ for (let user of json.users) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ user: text, time: startTime.toISOString(), users: users })
+            body: JSON.stringify({ user: user, time: startTime.toISOString(), users: users })
         });
     };
 
@@ -301,6 +301,7 @@ setInterval(async () => {
     const data = await response.text();
     const json = JSON.parse(data);
     const newUsers = json.users;
+    startTime = new Date();
 
     // Actualizar la lista de usuarios si hay cambios
     if (JSON.stringify(users) !== JSON.stringify(newUsers)) {
