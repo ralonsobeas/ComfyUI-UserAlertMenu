@@ -39,7 +39,7 @@
 
         @routes.post("/remove-user")
         async def remove_user(request):
-            print("Removing user")
+            #print("Removing user")
             data = await request.json()
             users = data.get("users", [])
 
@@ -56,7 +56,7 @@
                     if os.path.getsize("user.txt") == 0:
                         return web.json_response({"users": users})
                     users = json.loads(f.read())
-                print("Users loaded:", users)
+                #print("Users loaded:", users)
                 return web.json_response({"users": users})
 
             else:

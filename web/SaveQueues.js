@@ -7,7 +7,7 @@ menu.append(hr);
 
 const container = document.createElement("div");
 container.id = "saveQueuesContainer";
-
+var menu_new = document.querySelector(".side-tool-bar-container");
 // Create input field for user name
 const saveInput = document.createElement("input");
 saveInput.id = "saveQueuesInput";
